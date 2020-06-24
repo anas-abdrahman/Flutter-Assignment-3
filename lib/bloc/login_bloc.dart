@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:assignment_2/bloc/base_bloc.dart';
-import 'package:assignment_2/bloc/bloc_result.dart';
-import 'package:assignment_2/firebase/auth.dart';
-import 'package:assignment_2/model/user.dart';
+import 'package:assignment_3/bloc/base_bloc.dart';
+import 'package:assignment_3/bloc/bloc_result.dart';
+import 'package:assignment_3/firebase/auth.dart';
+import 'package:assignment_3/model/user.dart';
 
 class LoginBloc extends BaseBloc{
 

@@ -1,7 +1,7 @@
-import 'package:assignment_2/screen/home_screen.dart';
-import 'package:assignment_2/screen/login_screen.dart';
-import 'package:assignment_2/screen/register_screen.dart';
-import 'package:assignment_2/screen/splash_screen.dart';
+import 'package:assignment_3/screen/home_screen.dart';
+import 'package:assignment_3/screen/login_screen.dart';
+import 'package:assignment_3/screen/register_screen.dart';
+import 'package:assignment_3/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoute {
