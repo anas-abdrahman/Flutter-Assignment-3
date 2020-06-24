@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "182902363785",
+    "firebase_url": "https://flutter-training-course.firebaseio.com",
+    "project_id": "flutter-training-course",
+    "storage_bucket": "flutter-training-course.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182902363785:android:a7881b137109f05cfe9858",
+        "android_client_info": {
+          "package_name": "com.mynasmah.training"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182902363785-fq0iiujaanrgh5qqj8v71lkd7qgr6o8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXWQMB5y9OmqMUF1-hudqDREgYrgejCkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182902363785-fq0iiujaanrgh5qqj8v71lkd7qgr6o8b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
