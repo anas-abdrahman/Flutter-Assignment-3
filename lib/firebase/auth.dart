@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:assignment_3/model/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart' as Path;
 
 class Auth {
   static FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -67,9 +71,8 @@ class Auth {
 
   static Future<void> setUserFirestore(User user) async {
     if (user != null) {
-      return Firestore.instance
-          .document("users/${user.id}")
-          .setData(user.toJson());
+      Firestore.instance.document("users/${user.id}").setData(user.toJson());
+      return await Future.delayed(Duration(seconds: 1));
     } else {
       return null;
     }
@@ -85,5 +88,27 @@ class Auth {
     } else {
       return null;
     }
+  }
+
+  static Future<String> uploadProfile(File image) async {
+
+    final auth = await getCurrentUser();
+    final user = await getUserFirestore(auth.uid);
+
+    StorageReference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('image/${user.id}/${Path.basename(image.path)}}');
+
+    StorageUploadTask uploadTask = storageReference.putFile(image);
+
+    await uploadTask.onComplete;
+
+    final fileUrl = await storageReference.getDownloadURL();
+
+    if(fileUrl != null) user.image = fileUrl;
+
+    setUserFirestore(user);
+
+    return fileUrl;
   }
 }

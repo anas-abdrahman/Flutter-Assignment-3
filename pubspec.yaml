@@ -32,6 +32,10 @@ dependencies:
   cloud_firestore: ^0.13.6
   shared_preferences: any
   rflutter_alert: ^1.0.3
+  camera: ^0.5.8+2
+  path_provider: ^1.6.11
+  native_device_orientation: ^0.3.0
+  firebase_storage: ^3.0.3 
 
 dev_dependencies:
   flutter_test:

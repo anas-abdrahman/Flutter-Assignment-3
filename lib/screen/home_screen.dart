@@ -1,9 +1,15 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import '../style/app_color.dart';
+import '../utils/app_route.dart';
 import '../widget/app_text_field.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -71,7 +77,9 @@ class HomeScreen extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.perm_identity),
           color: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            AppRoute.profileScreen(context);
+          },
         )
       ],
     );
