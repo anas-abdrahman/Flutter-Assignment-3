@@ -37,20 +37,6 @@ class Auth {
     _firebaseAuth.signOut();
   }
 
-  static Future<void> sendEmailVerification() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    user.sendEmailVerification();
-  }
-
-  static Future<bool> isEmailVerified() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    return user.isEmailVerified;
-  }
-
-  static Future<void> forgotPasswordEmail(String email) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  }
-
   static Future<bool> checkUserExist(String userId) async {
     bool exists = false;
 

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:assignment_3/bloc/update_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_3/utils/app_camera.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../bloc/bloc_result.dart';
 import '../firebase/auth.dart';
@@ -33,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool profileUpdated = false;
 
   ImageProvider imageProfile;
+  Position _currentPosition;
   String imageUrl;
 
   @override
@@ -42,13 +44,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       setState(() {
         user = data;
+
         _showLoading = false;
+
         _nameController.text = data.name;
         _phoneController.text = data.phone;
         _emailController.text = data.email;
 
-        if(data.image != null) imageProfile = NetworkImage(data.image);
-        
+        if (data.image != null) imageProfile = NetworkImage(data.image);
       });
     });
 
@@ -90,10 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     final screenSize = MediaQuery.of(context).size;
 
     return MaterialApp(
-      title: 'Material App',
       home: SafeArea(
         child: Scaffold(
           body: AppLoader(
@@ -130,8 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   image: new DecorationImage(
                                     fit: BoxFit.fill,
                                     image: imageProfile ??
-                                        AssetImage(
-                                            'assets/images/profile_image.png'),
+                                        AssetImage('assets/images/profile_image.png'),
                                   ),
                                 ),
                               ),
@@ -146,7 +148,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     if (imagePath != null) {
                                       final imageFile = File(imagePath);
 
-                                      Auth.uploadProfile(imageFile).then((value) => imageUrl = value);
+                                      Auth.uploadProfile(imageFile)
+                                          .then((value) => imageUrl = value);
                                       profileUpdated = true;
 
                                       setState(() {
@@ -174,16 +177,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ).then(
                                   (imagePath) {
                                     if (imagePath != null) {
-
                                       final imageFile = File(imagePath);
 
-                                      Auth.uploadProfile(imageFile).then((value) => imageUrl = value);
+                                      Auth.uploadProfile(imageFile)
+                                          .then((value) => imageUrl = value);
                                       profileUpdated = true;
 
                                       setState(() {
                                         imageProfile = FileImage(imageFile);
                                       });
-
                                     }
                                   },
                                 );
@@ -242,13 +244,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 //mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   FlatButton(
-                                    onPressed: null,
+                                    onPressed: _getCurrentLocation,
                                     child: Text(
                                       'Get Location',
-                                      style: TextStyle(color: Colors.blue[500]),
+                                      style: TextStyle(
+                                        color: Colors.blue[500],
+                                      ),
                                     ),
                                   ),
-                                  Text('LN 19.2011564 LT 20.35489')
+                                  _currentPosition == null
+                                      ? Text('----')
+                                      : Text(
+                                          "LAT: ${_currentPosition.latitude}, LNG: ${_currentPosition.longitude}")
                                 ],
                               ),
                             ),
@@ -295,7 +302,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           name: name,
                                           email: email,
                                           phone: phone,
-                                          image: profileUpdated ?  imageUrl : user.image
+                                          image: profileUpdated
+                                              ? imageUrl
+                                              : user.image,
                                         ),
                                       );
 
@@ -319,5 +328,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  _getCurrentLocation() {
+
+    setState(() {
+      _showLoading = true;
+    });
+
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _showLoading = false;
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 }
